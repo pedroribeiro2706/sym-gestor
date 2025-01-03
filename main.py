@@ -1,11 +1,11 @@
 import openai
 from fastapi import FastAPI, UploadFile, File, Query
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import pymysql
 import os
 import uuid
 from dotenv import load_dotenv
-from fastapi.middleware.cors import CORSMiddleware
 from langchain.agents import initialize_agent
 from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate
@@ -16,6 +16,10 @@ import pinecone
 from datetime import datetime, timezone
 from pinecone import Pinecone, ServerlessSpec
 import warnings
+
+from reportRoutes import router as report_router
+from dashboardRoutes import router as dashboard_router
+from chatRoutes import router as chat_router
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
@@ -87,6 +91,11 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Incluir routers para o dashboard
+app.include_router(report_router, prefix="/api")
+app.include_router(dashboard_router, prefix="/api")
+app.include_router(chat_router, prefix="/api")
 
 # Defina o esquema para o argumento
 class SentimentAnalysisInput(BaseModel):
@@ -484,18 +493,8 @@ async def update_user_details(data: UserDetails):
             status_code=500,
         )
 
-    
-    ############################# DASHBOARD ###########################################
-
-from dashboardRoutes import router as dashboard_router
-
-app.include_router(dashboard_router, prefix="/api")
-
-from chatRoutes import router as chat_router
-
-app.include_router(chat_router, prefix="/api")
-
-from reportRoutes import router as report_router
-
-app.include_router(report_router, prefix="/api")
+# Rota raiz para teste
+@app.get("/")
+async def root():
+    return {"message": "Backend SYM-Gestor funcionando corretamente!"}
 
