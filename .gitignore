@@ -1,0 +1,19 @@
+# Ignorar variáveis de ambiente
+.env
+
+# Ignorar dependências e bibliotecas
+venv/
+node_modules/
+
+# Ignorar arquivos de cache e compilação
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar logs e bancos de dados locais
+*.log
+*.sqlite3
+
+# Ignorar arquivos do sistema
+.DS_Store
+Thumbs.db

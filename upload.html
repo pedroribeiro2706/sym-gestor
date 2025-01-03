@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload de Áudio</title>
+</head>
+<body>
+    <h1>Enviar Áudio para Transcrição</h1>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <label for="file">Escolha o arquivo:</label>
+        <input type="file" name="file" id="file" required>
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        const form = document.getElementById('uploadForm');
+        const responseDiv = document.getElementById('response');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Impede o comportamento padrão do formulário
+
+            const formData = new FormData();
+            const fileInput = document.getElementById('file');
+            formData.append('file', fileInput.files[0]);
+
+            console.log("Enviando o arquivo para o backend...");
+            console.log(fileInput.files[0]); // Confirme se o arquivo foi selecionado
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/upload-audio/', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                console.log("Resposta do servidor:", response);
+
+                if (response.ok) {
+                    const result = await response.json();
+
+                    console.log("JSON recebido:", result);
+
+                    responseDiv.innerHTML = `
+                        <h2>Resposta:</h2>
+                        <p><strong>Mensagem:</strong> ${result.message}</p>
+                        <p><strong>Transcrição:</strong> ${result.transcription}</p>
+                    `;
+                } else {
+                    const errorResult = await response.json();
+
+                    console.error("Erro no servidor:", errorResult);
+
+                    responseDiv.innerHTML = `
+                        <h2>Erro:</h2>
+                        <p>${errorResult.error}</p>
+                    `;
+                }
+            } catch (error) {
+                
+                console.error("Erro durante o fetch:", error);
+
+                responseDiv.innerHTML = `
+                    <h2>Erro:</h2>
+                    <p>${error.message}</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+import pymysql
+from dotenv import load_dotenv
+import os
+
+# Carregar variáveis do .env
+load_dotenv()
+
+# Configurar conexão com o banco MySQL
+mysql_connection = pymysql.connect(
+    host=os.getenv("MYSQL_HOST"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DATABASE"),
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+
+import pymysql
+from dotenv import load_dotenv
+import os
+
+# Carregar variáveis do .env
+load_dotenv()
+
+# Configurar conexão com o banco MySQL
+mysql_connection = pymysql.connect(
+    host=os.getenv("MYSQL_HOST"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    database=os.getenv("MYSQL_DATABASE"),
+    charset='utf8mb4',
+    cursorclass=pymysql.cursors.DictCursor
+)
+
+try:
+    with mysql_connection.cursor() as cursor:
+        cursor.execute("SELECT DATABASE();")
+        result = cursor.fetchone()
+        print(f"Conectado ao banco de dados: {result}")
+except Exception as e:
+    print(f"Erro ao conectar ao banco de dados: {str(e)}")
+finally:
+    mysql_connection.close()
+
