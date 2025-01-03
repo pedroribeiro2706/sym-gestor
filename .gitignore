@@ -17,3 +17,16 @@ __pycache__/
 # Ignorar arquivos do sistema
 .DS_Store
 Thumbs.db
+
+# Ignorar arquivos específicos
+Elogio-Educado.m4a
+main-backup.py
+mainbackup.py
+requirements-backend-01.txt
+testeMySQL
+testeconexaofrontcomback.html
+testeopenai.pyupload.html
+whisper.py
+
+# Ignorar a pasta temp_files
+temp_files/
