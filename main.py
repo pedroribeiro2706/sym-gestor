@@ -1,7 +1,7 @@
 import openai
 from fastapi import FastAPI, UploadFile, File, Query
-from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 import pymysql
 import os
 import uuid
@@ -342,6 +342,11 @@ agent = initialize_agent(
 
 ############################################ ENDPOINTS PARA O FRONTEND ###########################################################
 
+# Rota raiz para teste
+@app.get("/")
+async def root():
+    return {"message": "Backend SYM-Gestor funcionando corretamente!"}
+
 #Endpoint para upload e transcrição do áudio
 @app.post("/upload-audio/")
 async def upload_audio(file: UploadFile = File(...)):
@@ -492,9 +497,3 @@ async def update_user_details(data: UserDetails):
             content={"error": f"Erro ao atualizar os detalhes do usuário: {str(e)}"},
             status_code=500,
         )
-
-# Rota raiz para teste
-@app.get("/")
-async def root():
-    return {"message": "Backend SYM-Gestor funcionando corretamente!"}
-
