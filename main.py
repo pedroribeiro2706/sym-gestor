@@ -16,12 +16,11 @@ import pinecone
 from datetime import datetime, timezone
 from pinecone import Pinecone, ServerlessSpec
 import warnings
+import logging
 
 from reportRoutes import router as report_router
 from dashboardRoutes import router as dashboard_router
 from chatRoutes import router as chat_router
-
-warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # Carrega variáveis de ambiente do arquivo .env
 load_dotenv()
@@ -76,7 +75,8 @@ def validate_namespace(index, namespace):
         raise
 
 
-
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+logging.basicConfig(level=logging.DEBUG)
 
 
 ############################################## CRIA A ESTRUTURA DO BACKEND ########################################
@@ -86,7 +86,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://clockdesign.com.br"],  # Permite apenas o frontend
+    allow_origins=["*"],  # Permite todas as origens (modifique para segurança)
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
