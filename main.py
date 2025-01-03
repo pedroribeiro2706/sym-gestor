@@ -86,7 +86,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Permite todas as origens (modifique para segurança)
+    allow_origins=["https://clockdesign.com.br"],  # Permite apenas o frontend
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
